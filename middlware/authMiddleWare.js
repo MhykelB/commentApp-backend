@@ -12,7 +12,7 @@ const authenticateToken = async (req, res, next)=>{
   const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
   if(decodedToken){
     const {userID, username} = decodedToken
-    req.user = {userID, username} // on getting all comments, send this to the front end to customize the page for the user
+    req.user = {userID, username} // on getting all comments, send this to the front end to customize the page for the user and also for diff requests
    return next()
   }
   }
