@@ -4,4 +4,5 @@ class customError extends Error{
     this.statusCode = statusCode
   }
 }
+
 module.exports = customError

@@ -1,6 +1,5 @@
-const customError = require('./customError')
+// const customError = require('./customError')
 const errorHandler = (err,req,res,next)=>{
-
   const myCustomError = {
     msg: err.message || 'something went wrong',
     statusCode: err.statusCode || 500

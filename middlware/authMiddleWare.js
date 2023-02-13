@@ -1,10 +1,10 @@
-const customError = require('../errors/customError')
+const {unauthneticatedError} = require('../errors/')
 const jwt = require('jsonwebtoken')
 
 const authenticateToken = async (req, res, next)=>{
  const reqHeaders = req.headers.authorization
   if (!reqHeaders){
-      throw new customError('token unavailable', 401)
+      throw new unauthneticatedError('token not provided')
   }
   if (reqHeaders.startsWith("Bearer ")){
   const token = reqHeaders.split(' ')[1]
@@ -16,7 +16,8 @@ const authenticateToken = async (req, res, next)=>{
    return next()
   }
   }
-  throw new customError('token invalid', 401)
+  throw new unauthneticatedError('Not authorized to access this route, sorry ehn')
+
 }
 
 module.exports = authenticateToken
