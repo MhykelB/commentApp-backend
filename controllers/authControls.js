@@ -24,6 +24,6 @@ const login = async (req, res)=>{
 // generate token
 // const token = jwt.sign({userID:user._id, username:user.username},process.env.JWT_SECRET,{expiresIn:'30d'})
 const token = await user.createJWT()
-  res.status(200).json({success:true, token})
+  res.status(200).json({success:true, message:'login successful', token})
 }
 module.exports = {register, login}

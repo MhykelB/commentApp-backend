@@ -22,6 +22,6 @@ myCustomError.statusCode = 400
   
 
   // return res.status(myCustomError.statusCode).json()
-  return res.status(myCustomError.statusCode).json(err)
+  return res.status(myCustomError.statusCode).json(myCustomError.msg)
 }
 module.exports = errorHandler
