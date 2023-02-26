@@ -7,10 +7,16 @@ const connectDB = require("./db/connect");
 const errorHandler = require("./errors/error-handler");
 require("dotenv").config();
 const authMiddleware = require("./middlware/authMiddleWare");
+const cors = require("cors");
 
 // middleware
 expressApp.use(express.static("../front-end"));
 expressApp.use(express.json());
+expressApp.use(
+  cors({
+    origin: "http://localhost:3000/",
+  })
+);
 expressApp.use("/auth", authRoute);
 expressApp.use("/api/v1/comments", authMiddleware, route);
 expressApp.use(errorHandler);
