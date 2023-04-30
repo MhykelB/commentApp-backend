@@ -1,22 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleWare = require("../middlware/authMiddleWare");
 const {
   getComments,
   postComment,
   addReply,
   updateReply,
   updateComment,
+  likeOrUnlike,
   deleteComment,
   deleteReply,
 } = require("../controllers/commentsControls");
 
 //  get all comments and replies
-router.get("/", authMiddleWare, getComments);
+router.get("/", getComments);
 // post a comment
 router.post("/postcomment", postComment);
 // post a reply
 router.patch("/:commentID", addReply);
+// add or remove a like
+router.patch("/like/:commentID", likeOrUnlike);
 //add a comment
 router.patch("/updatecomment/:commentID", updateComment);
 // update a reply

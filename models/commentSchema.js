@@ -5,9 +5,10 @@ const replySchema = new mongoose.Schema(
     //include the id of the user who created it
     created_by_ID: { type: mongoose.Types.ObjectId, ref: "User" },
     created_by: { type: String },
-    replied_to: { type: String },
+    replied_to: { type: String, required: [true] },
     text: { type: String, maxlength: [100, "can't be more than 50 chracters"] },
-    likes: { type: Number, default: 0 },
+    likes: [],
+    type: { type: String, default: "reply" },
   },
   { timestamps: true }
 );
@@ -22,8 +23,9 @@ const commentSchema = new mongoose.Schema(
       required: [true],
       maxlength: [100, "can't be more than 50 chracters"],
     },
-    likes: { type: Number, default: 0 },
+    likes: [],
     replies: [replySchema],
+    type: { type: String, default: "comment" },
   },
   { timestamps: true }
 );

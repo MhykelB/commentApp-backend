@@ -1,5 +1,5 @@
 const userSchema = require("../models/userSchema");
-const customError = require("../errors/customError");
+const { badRequest, unauthneticatedError } = require("../errors/");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
@@ -9,24 +9,24 @@ const register = async (req, res) => {
     throw error;
     // probably a duplicate error so check the error type and adjust the error msg
   }
-  return res.status(201).json({ success: true, msg: "account created" });
+  return res.status(201).json({ success: true, message: "account created" });
 };
 const login = async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    throw new customError("Please provide email and password", 400);
+    throw new badRequest("Please provide username and password");
   }
   const user = await userSchema.findOne({ username: username });
   if (!user) {
-    throw new customError("Unauthorized, invalid credentials", 400);
+    throw new unauthneticatedError("Unauthorized, invalid credentials");
   }
   const isPassword = await user.comparePassword(password);
   if (!isPassword) {
-    throw new customError("Unauthorized, invalid credentials", 400);
+    throw new unauthneticatedError("Unauthorized, invalid credentials");
   }
   // generate token
   // const token = jwt.sign({userID:user._id, username:user.username},process.env.JWT_SECRET,{expiresIn:'30d'})
   const token = await user.createJWT();
-  res.status(200).json({ success: true, token });
+  res.status(200).json({ success: true, message: "login successful", token });
 };
 module.exports = { register, login };

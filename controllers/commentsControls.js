@@ -38,16 +38,76 @@ const addReply = async (req, res) => {
   }
   res.status(200).json(comment);
 };
+const likeOrUnlike = async (req, res) => {
+  const { userID, duty } = req.body;
+  const commentID = req.params.commentID;
+  if (duty === "comment") {
+    let comment = await commentSchema.findOne({ _id: commentID });
+
+    const ifLikes = comment.likes.includes(userID);
+    if (ifLikes) {
+      const removeLike = comment.likes.filter((likesID) => {
+        return likesID !== userID;
+      });
+      comment.set({ likes: removeLike });
+      comment = await comment.save();
+      console.log(comment.likes);
+      if (!comment) {
+        throw error;
+      }
+      return res.status(200).json(comment);
+    } else {
+      let comment = await commentSchema.findOne({ _id: commentID });
+      const addLike = comment.likes.concat(userID);
+      comment.set({ likes: addLike });
+      comment = await comment.save();
+      console.log(comment.likes);
+      if (!comment) {
+        throw error;
+      }
+      return res.status(200).json(comment);
+    }
+  } else if (duty === "reply") {
+    let parentComment = await commentSchema.findOne({
+      "replies._id": commentID,
+    });
+    const reply = parentComment.replies.id(commentID); //returns the subdocument object in the replies array with the specified repyID
+    const ifLikes = reply.likes.includes(userID);
+    console.log(ifLikes);
+    if (ifLikes) {
+      const removeLike = reply.likes.filter((likesID) => {
+        return likesID !== userID;
+      });
+      reply.set({ likes: removeLike });
+      parentComment = await parentComment.save();
+      if (!parentComment) {
+        throw error;
+      }
+      return res.status(200).json(parentComment);
+    } else {
+      const addLike = reply.likes.concat(userID);
+      reply.set({ likes: addLike });
+      parentComment = await parentComment.save();
+      if (!parentComment) {
+        throw error;
+      }
+      return res.status(200).json(parentComment);
+    }
+  } else {
+    throw error;
+  }
+};
+
 const updateReply = async (req, res) => {
   const replyID = req.params.replyID;
-  const comment = await commentSchema.findOne({ "replies._id": replyID }); //returns  parent document
+  let comment = await commentSchema.findOne({ "replies._id": replyID }); //returns  parent document
   const reply = comment.replies.id(replyID); //returns the subdocument object in the replies array with the specified repyID
   reply.set(req.body);
-  await comment.save(); // saves the parent document to updated properties
+  comment = await comment.save(); // saves the parent document to updated properties
   if (!reply) {
     throw error;
   }
-  res.status(200).json(reply);
+  res.status(200).json(comment);
 }; //only allow for likes update, not texts
 const updateComment = async (req, res) => {
   const commentID = req.params.commentID;
@@ -67,18 +127,26 @@ const deleteComment = async (req, res) => {
   if (!comment) {
     throw error;
   }
-  res.status(200).json("deleted successfully");
+  res.status(200).json({
+    message: " comment deleted successfully",
+    comment,
+    type: "comment",
+  });
 };
 const deleteReply = async (req, res) => {
   const replyID = req.params.replyID;
-  const comment = await commentSchema.findOne({ "replies._id": replyID }); //returns  parent document
+  let comment = await commentSchema.findOne({ "replies._id": replyID }); //returns  parent document
   const reply = comment.replies.id(replyID); //returns the subdocument object in the replies array with the specified repyID
   if (!reply) {
     throw error;
   }
   reply.remove();
-  await comment.save(); // saves the parent document to updated properties
-  res.status(200).json("reply deleted successfully");
+  comment = await comment.save(); // saves the parent document to updated properties
+  res.status(200).json({
+    message: "reply deleted successfully",
+    comment,
+    type: "reply",
+  });
 };
 
 module.exports = {
@@ -87,6 +155,7 @@ module.exports = {
   addReply,
   updateReply,
   updateComment,
+  likeOrUnlike,
   deleteComment,
   deleteReply,
 };

@@ -22,7 +22,7 @@ expressApp.use("/api/v1/comments", authMiddleware, route);
 expressApp.use(errorHandler);
 
 expressApp.get("/", (req, res) => {
-  res.send("heloooo, this app is working properly...");
+  res.send("heloooo, this app is working properly");
 });
 
 const port = process.env.PORT || 4000;
