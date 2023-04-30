@@ -20,9 +20,10 @@ expressApp.use(express.json());
 expressApp.use("/auth", authRoute);
 expressApp.use("/api/v1/comments", authMiddleware, route);
 expressApp.use(errorHandler);
-// expressApp.get("/", (req, res) => {
-//   res.send("heloooo");
-// });
+
+expressApp.get("/", (req, res) => {
+  res.send("heloooo, this app is working properly");
+});
 
 const port = process.env.PORT || 4000;
 
