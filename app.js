@@ -12,7 +12,7 @@ const authMiddleware = require("./middlware/authMiddleWare");
 // middleware
 expressApp.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://comment-app-backend.vercel.app"],
   })
 );
 expressApp.use(express.static("../front-end"));
