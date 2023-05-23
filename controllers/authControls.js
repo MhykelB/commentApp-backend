@@ -1,6 +1,5 @@
 const userSchema = require("../models/userSchema");
 const { badRequest, unauthneticatedError } = require("../errors/");
-const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   userSchema.createIndexes({ username: 1 }); // takes care of duplicate issues

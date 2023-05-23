@@ -10,16 +10,13 @@ require("dotenv").config();
 const authMiddleware = require("./middlware/authMiddleWare");
 
 // middleware
-expressApp.use(
-  cors({
-    // origin: false,
-    origin: [
-      "http://localhost:3000",
-      "http://comment-app-backend.vercel.app/api/v1/comments",
-      "http://comment-app-backend.vercel.app",
-    ],
-  })
-);
+const corsOptions = {
+  origin: "*",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+
+expressApp.use(cors(corsOptions));
 expressApp.use(express.static("../front-end"));
 expressApp.use(express.json());
 expressApp.use("/auth", authRoute);
