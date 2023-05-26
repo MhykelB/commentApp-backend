@@ -18,7 +18,7 @@ const corsOptions = {
 // expressApp.use((req, res) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 // });
-expressApp.options("*", cors());
+expressApp.options("*", cors(corsOptions));
 expressApp.use(cors(corsOptions));
 expressApp.use(express.static("../front-end"));
 expressApp.use(express.json());
