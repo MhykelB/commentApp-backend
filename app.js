@@ -11,13 +11,14 @@ const authMiddleware = require("./middlware/authMiddleWare");
 
 // middleware
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "*",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
-expressApp.use((req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
-});
+// expressApp.use((req, res) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+// });
+expressApp.options("*", cors());
 expressApp.use(cors(corsOptions));
 expressApp.use(express.static("../front-end"));
 expressApp.use(express.json());
