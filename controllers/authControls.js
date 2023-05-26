@@ -17,11 +17,11 @@ const login = async (req, res) => {
   }
   const user = await userSchema.findOne({ username: username });
   if (!user) {
-    throw new unauthneticatedError("Unauthorized, invalid credentials");
+    throw new unauthneticatedError("Unauthorized, incorrect credentials");
   }
   const isPassword = await user.comparePassword(password);
   if (!isPassword) {
-    throw new unauthneticatedError("Unauthorized, invalid credentials");
+    throw new unauthneticatedError("Unauthorized, incorrect credentials");
   }
   // generate token
   // const token = jwt.sign({userID:user._id, username:user.username},process.env.JWT_SECRET,{expiresIn:'30d'})
