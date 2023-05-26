@@ -11,7 +11,7 @@ const authMiddleware = require("./middlware/authMiddleWare");
 
 // middleware
 const corsOptions = {
-  origin: "*",
+  origin: "http://localhost:3000",
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
