@@ -20,7 +20,6 @@ myCustomError.statusCode = 400
     myCustomError.statusCode = 404
   }
   
-
   // return res.status(myCustomError.statusCode).json()
   return res.status(myCustomError.statusCode).json(myCustomError.msg)
 }

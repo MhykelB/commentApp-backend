@@ -9,17 +9,17 @@ const errorHandler = require("./errors/error-handler");
 require("dotenv").config();
 const authMiddleware = require("./middlware/authMiddleWare");
 
-middleware;
-const corsOptions = {
-  origin: false,
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
+// const corsOptions = {
+//   origin: false,
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
 // expressApp.use((req, res) => {
 //   res.header("Access-Control-Allow-Origin", "*");
 // });
 // expressApp.options("*", cors(corsOptions));
-expressApp.use(cors(corsOptions));
+expressApp.use(cors());
+// expressApp.use(cors(corsOptions));
 expressApp.use(express.static("../front-end"));
 expressApp.use(express.json());
 expressApp.use("/auth", authRoute);
