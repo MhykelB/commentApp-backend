@@ -40,7 +40,7 @@ const start = async () => {
     // await userSchema.deleteMany()
     expressApp.listen(port, () => {
       console.log(`server is up and running, listening to port ${port} `);
-    });
+    }); 
   } catch {
     (err) => {
       console.log(err);
